@@ -1,4 +1,4 @@
-package org.alexa.dev.viewModel
+package alexa.diamant.prioritizer2.dev.viewModel
 
 import alexa.diamant.prioritizer2.dev.model.Task
 

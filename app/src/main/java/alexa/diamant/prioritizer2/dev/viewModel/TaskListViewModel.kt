@@ -1,129 +1,40 @@
 package alexa.diamant.prioritizer2.dev.viewModel
 
 import alexa.diamant.prioritizer2.dev.model.Task
+import alexa.diamant.prioritizer2.dev.model.toTask
+import alexa.diamant.prioritizer2.dev.repository.TaskRepository
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.alexa.dev.utils.execute
 import javax.inject.Inject
 
 @HiltViewModel
-class TaskListViewModel @Inject constructor(): ViewModel() {
+class TaskListViewModel @Inject constructor(
+    private val repository: TaskRepository
+): ViewModel() {
 
-    private val _tasks = MutableStateFlow<List<Task>>(mockTasks())
-    val tasks: StateFlow<List<Task>> = _tasks
+    private val _uiState = MutableStateFlow(EditTaskUIState())
+    val state = _uiState.asStateFlow()
 
-    private fun mockTasks(): List<Task> = listOf(
-        Task(
-            id = 1,
-            name = "Write report",
-            description = "End of month finance report",
-            deadline = "2025-06-01",
-            estimatedHours = 3,
-            urgency = 4,
-            importance = 5,
-            priority = 5,
-            isDone = false
-        ),
-        Task(
-            id = 2,
-            name = "Call supplier",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 3,
-            name = "Eat",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 4,
-            name = "Jrat'",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 5,
-            name = "AAAAAAAAA",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 1,
-            name = "Write report",
-            description = "End of month finance report",
-            deadline = "2025-06-01",
-            estimatedHours = 3,
-            urgency = 4,
-            importance = 5,
-            priority = 5,
-            isDone = false
-        ),
-        Task(
-            id = 2,
-            name = "Call supplier",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 3,
-            name = "Eat",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 4,
-            name = "Jrat'",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
-        ),
-        Task(
-            id = 5,
-            name = "AAAAAAAAA",
-            description = null,
-            deadline = "2025-06-03",
-            estimatedHours = 1,
-            urgency = 2,
-            importance = 3,
-            priority = 3,
-            isDone = false
+    fun loadTasks() {
+        viewModelScope.execute(
+            source = {
+                repository.getAllTasks()
+            },
+            onSuccess = { tasks ->
+                _uiState.update {
+                    it.copy(
+                        tasks = tasks.map { task -> task.toTask() }
+                    )
+                }
+            }
         )
-    )
+    }
 
 }
