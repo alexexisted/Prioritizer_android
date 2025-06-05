@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.alexa.dev.utils.execute
+import org.alexa.dev.viewModel.TaskListUiState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +20,7 @@ class TaskListViewModel @Inject constructor(
     private val repository: TaskRepository
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow(EditTaskUIState())
+    private val _uiState = MutableStateFlow(TaskListUiState())
     val state = _uiState.asStateFlow()
 
     fun loadTasks() {

@@ -1,6 +1,7 @@
 package alexa.diamant.prioritizer2.dev.screens
 
 import alexa.diamant.prioritizer2.dev.ui.LabeledNumberSelector
+import alexa.diamant.prioritizer2.dev.viewModel.CreateTaskUiAction
 import alexa.diamant.prioritizer2.dev.viewModel.DetailTaskViewModel
 import android.app.DatePickerDialog
 import androidx.compose.foundation.BorderStroke
@@ -29,11 +30,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -47,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import java.time.LocalDate
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,29 +61,42 @@ fun TaskDetailScreen(
     viewModel: DetailTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
-
-    var name = state.taskName
-    var description = state.taskDescription
-    var deadline = LocalDate.parse(state.deadline)
-
     val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiAction.collect { action ->
+            when (action) {
+                is CreateTaskUiAction.SuccessCreation -> {
+                    navController.popBackStack()
+                }
+                is CreateTaskUiAction.ShowError -> {
+                    snackbarHostState.showSnackbar(
+                        message = action.message,
+                        duration = SnackbarDuration.Long
+                    )
+                }
+            }
+        }
+    }
+
+    val calendar = remember { Calendar.getInstance() }
+
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
             { _, year, month, dayOfMonth ->
-                deadline = LocalDate.of(year, month + 1, dayOfMonth)
+                val date = LocalDate.of(year, month + 1, dayOfMonth)
+                viewModel.changeDeadline(date.toString())
             },
-            deadline.year,
-            deadline.monthValue - 1,
-            deadline.dayOfMonth
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
     }
 
-    var estimatedHours = state.estimatedHours
-    var urgency = state.urgency
-    var importance = state.importance
-
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -117,23 +136,23 @@ fun TaskDetailScreen(
                 item {
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
-                        value = name,
-                        onValueChange = { name = it },
+                        value = state.taskName,
+                        onValueChange = { viewModel.updateName(it) },
                         label = { Text("Task Name") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     OutlinedTextField(
-                        value = description,
-                        onValueChange = { description = it },
+                        value = state.taskDescription,
+                        onValueChange = { viewModel.updateDescription(it) },
                         label = { Text("Description") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Deadline: $deadline",
+                        text = "Deadline: ${state.deadline}",
                         fontSize = 20.sp,
                         modifier = Modifier
                             .clickable { datePickerDialog.show() }
@@ -142,16 +161,16 @@ fun TaskDetailScreen(
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    LabeledNumberSelector("Estimated hours", 1..10, estimatedHours) {
-                        estimatedHours = it
+                    LabeledNumberSelector("Estimated hours", 1..10, state.estimatedHours) {
+                        viewModel.changeEstimatedTime(it)
                     }
 
-                    LabeledNumberSelector("Urgency", 1..5, urgency) {
-                        urgency = it
+                    LabeledNumberSelector("Urgency", 1..5, state.urgency) {
+                        viewModel.changeUrgency(it)
                     }
 
-                    LabeledNumberSelector("Importance", 1..5, importance) {
-                        importance = it
+                    LabeledNumberSelector("Importance", 1..5, state.importance) {
+                        viewModel.changeImportance(it)
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -171,7 +190,7 @@ fun TaskDetailScreen(
                         }
 
                         OutlinedButton(
-                            onClick = { /* TODO: Save logic */ },
+                            onClick = { viewModel.updateTask() },
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = Color.Blue
                             ),
