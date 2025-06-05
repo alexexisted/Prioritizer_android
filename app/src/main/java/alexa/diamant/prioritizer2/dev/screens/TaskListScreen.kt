@@ -86,7 +86,12 @@ fun TaskListScreen(
                         .fillMaxWidth()
                         .padding(vertical = 10.dp, horizontal = 20.dp)
                 ) {
-                    TaskItem(task, navController)
+                    TaskItem(
+                        task,
+                        navController,
+                        onCheckedTask = { isChecked ->
+                            viewModel.checkTheTask(task.id, isChecked)
+                        })
                 }
             }
         }

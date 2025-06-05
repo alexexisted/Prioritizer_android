@@ -34,7 +34,9 @@ import alexa.diamant.prioritizer2.dev.model.Task
 
 @Composable
 @PreviewParameter(TaskPreviewProvider::class)
-fun TaskItem(task: Task, navController: NavController) {
+fun TaskItem(task: Task,
+             navController: NavController,
+             onCheckedTask: (Boolean) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,8 +59,8 @@ fun TaskItem(task: Task, navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
-                    checked = false,
-                    onCheckedChange = null
+                    checked = task.isDone,
+                    onCheckedChange = onCheckedTask
                 )
 
                 Column(modifier = Modifier

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskListViewModel @Inject constructor(
     private val repository: TaskRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TaskListUiState())
     val state = _uiState.asStateFlow()
@@ -29,12 +28,30 @@ class TaskListViewModel @Inject constructor(
                 repository.getAllTasks()
             },
             onSuccess = { tasks ->
+                val sortedTasks = tasks
+                    .map { it.toTask() }
+                    .sortedWith(
+                        compareBy<Task> { it.isDone } // false (not done) comes first
+                            .thenByDescending { it.priority } // higher priority first
+                    )
                 _uiState.update {
                     it.copy(
-                        tasks = tasks.map { task -> task.toTask() }
+                        tasks = sortedTasks
                     )
                 }
             }
+        )
+    }
+
+    fun checkTheTask(id: Int, isDone: Boolean) {
+        viewModelScope.execute(
+            source = { repository.getTaskById(id) },
+            onSuccess = { task ->
+                viewModelScope.launch {
+                    repository.updateTask(task!!.copy(isDone = isDone))
+                }
+            },
+            onComplete = { loadTasks() }
         )
     }
 
