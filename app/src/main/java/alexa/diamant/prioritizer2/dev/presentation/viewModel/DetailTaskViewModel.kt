@@ -1,8 +1,9 @@
-package alexa.diamant.prioritizer2.dev.viewModel
+package alexa.diamant.prioritizer2.dev.presentation.viewModel
 
-import alexa.diamant.prioritizer2.dev.db.TaskEntity
-import alexa.diamant.prioritizer2.dev.repository.TaskRepository
-import android.R.attr.name
+import alexa.diamant.prioritizer2.dev.data.TaskEntity
+import alexa.diamant.prioritizer2.dev.domain.repository.TaskRepository
+import alexa.diamant.prioritizer2.dev.presentation.state.CreateTaskUiAction
+import alexa.diamant.prioritizer2.dev.presentation.state.EditTaskUIState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

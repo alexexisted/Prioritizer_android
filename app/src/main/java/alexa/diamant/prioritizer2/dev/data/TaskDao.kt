@@ -1,6 +1,5 @@
-package alexa.diamant.prioritizer2.dev.db
+package alexa.diamant.prioritizer2.dev.data
 
-import alexa.diamant.prioritizer2.dev.model.Task
 import androidx.room.*
 
 @Dao

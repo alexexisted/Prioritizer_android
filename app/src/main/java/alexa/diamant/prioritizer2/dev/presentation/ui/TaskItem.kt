@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.ui
+package alexa.diamant.prioritizer2.dev.presentation.ui
 
 import alexa.diamant.prioritizer2.R
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import alexa.diamant.prioritizer2.dev.model.Task
+import alexa.diamant.prioritizer2.dev.domain.model.Task
 
 @Composable
 @PreviewParameter(TaskPreviewProvider::class)

@@ -1,7 +1,7 @@
-package alexa.diamant.prioritizer2.dev.screens
+package alexa.diamant.prioritizer2.dev.presentation.screens
 
-import alexa.diamant.prioritizer2.dev.ui.TaskItem
-import alexa.diamant.prioritizer2.dev.viewModel.TaskListViewModel
+import alexa.diamant.prioritizer2.dev.presentation.ui.TaskItem
+import alexa.diamant.prioritizer2.dev.presentation.viewModel.TaskListViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.viewModel
+package alexa.diamant.prioritizer2.dev.presentation.state
 
 sealed interface CreateTaskUiAction {
     object SuccessCreation : CreateTaskUiAction

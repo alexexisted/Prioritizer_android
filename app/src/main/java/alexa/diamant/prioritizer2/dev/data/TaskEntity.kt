@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.db
+package alexa.diamant.prioritizer2.dev.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

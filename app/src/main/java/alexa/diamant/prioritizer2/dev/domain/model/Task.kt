@@ -1,6 +1,6 @@
-package alexa.diamant.prioritizer2.dev.model
+package alexa.diamant.prioritizer2.dev.domain.model
 
-import alexa.diamant.prioritizer2.dev.db.TaskEntity
+import alexa.diamant.prioritizer2.dev.data.TaskEntity
 
 data class Task(
     val id: Int,

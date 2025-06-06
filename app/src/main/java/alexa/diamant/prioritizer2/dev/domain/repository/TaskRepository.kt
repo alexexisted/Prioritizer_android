@@ -1,8 +1,7 @@
-package alexa.diamant.prioritizer2.dev.repository
+package alexa.diamant.prioritizer2.dev.domain.repository
 
-import alexa.diamant.prioritizer2.dev.db.TaskDao
-import alexa.diamant.prioritizer2.dev.db.TaskEntity
-import alexa.diamant.prioritizer2.dev.model.Task
+import alexa.diamant.prioritizer2.dev.data.TaskDao
+import alexa.diamant.prioritizer2.dev.data.TaskEntity
 import javax.inject.Inject
 
 class TaskRepository @Inject constructor(

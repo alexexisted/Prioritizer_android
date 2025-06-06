@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.viewModel
+package alexa.diamant.prioritizer2.dev.presentation.state
 
 data class CreateTaskUIState(
     val errorMessage: String? = null,

@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.ui
+package alexa.diamant.prioritizer2.dev.presentation.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column

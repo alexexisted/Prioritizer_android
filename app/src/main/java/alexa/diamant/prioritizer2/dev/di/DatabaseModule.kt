@@ -1,7 +1,7 @@
 package alexa.diamant.prioritizer2.dev.di
 
-import alexa.diamant.prioritizer2.dev.db.AppDatabase
-import alexa.diamant.prioritizer2.dev.db.TaskDao
+import alexa.diamant.prioritizer2.dev.data.AppDatabase
+import alexa.diamant.prioritizer2.dev.data.TaskDao
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
