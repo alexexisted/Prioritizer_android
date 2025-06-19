@@ -1,4 +1,4 @@
-package alexa.diamant.prioritizer2.dev.presentation.viewModel
+package alexa.diamant.prioritizer2.dev.presentation.tasks
 
 import alexa.diamant.prioritizer2.dev.domain.model.Task
 import alexa.diamant.prioritizer2.dev.domain.model.toTask

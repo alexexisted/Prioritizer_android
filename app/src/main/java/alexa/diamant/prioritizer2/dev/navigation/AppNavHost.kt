@@ -1,8 +1,8 @@
 package alexa.diamant.prioritizer2.dev.navigation
 
-import alexa.diamant.prioritizer2.dev.presentation.screens.TaskCreateScreen
-import alexa.diamant.prioritizer2.dev.presentation.screens.TaskDetailScreen
-import alexa.diamant.prioritizer2.dev.presentation.screens.TaskListScreen
+import alexa.diamant.prioritizer2.dev.presentation.create_task.TaskCreateScreen
+import alexa.diamant.prioritizer2.dev.presentation.edit_task.TaskDetailScreen
+import alexa.diamant.prioritizer2.dev.presentation.tasks.TaskListScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost

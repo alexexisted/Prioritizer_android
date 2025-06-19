@@ -1,8 +1,7 @@
-package alexa.diamant.prioritizer2.dev.presentation.screens
+package alexa.diamant.prioritizer2.dev.presentation.create_task
 
 import alexa.diamant.prioritizer2.dev.presentation.ui.LabeledNumberSelector
-import alexa.diamant.prioritizer2.dev.presentation.state.CreateTaskUiAction
-import alexa.diamant.prioritizer2.dev.presentation.viewModel.DetailTaskViewModel
+import alexa.diamant.prioritizer2.dev.presentation.create_task.CreateTaskViewModel
 import android.app.DatePickerDialog
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -50,9 +49,9 @@ import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskDetailScreen(
+fun TaskCreateScreen(
     navController: NavController,
-    viewModel: DetailTaskViewModel = hiltViewModel()
+    viewModel: CreateTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -184,7 +183,7 @@ fun TaskDetailScreen(
                         }
 
                         OutlinedButton(
-                            onClick = { viewModel.updateTask() },
+                            onClick = { viewModel.createTask() },
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = Color.Blue
                             ),
@@ -198,5 +197,4 @@ fun TaskDetailScreen(
         }
     }
 }
-
 
