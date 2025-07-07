@@ -30,11 +30,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4" // Use appropriate version
-    }
-
-
     buildTypes {
         release {
             isMinifyEnabled = false
